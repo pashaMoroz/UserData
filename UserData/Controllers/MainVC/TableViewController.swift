@@ -64,7 +64,6 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol, 
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let detailUserVC: DetailUserViewController = DetailUserViewController()
         guard let userInfo = custPresenter?.usersData[indexPath.row] else {
 
@@ -73,6 +72,11 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol, 
         detailUserVC.nameUser = userInfo.name ?? ""
         detailUserVC.imageUrl = userInfo.image ?? ""
         self.navigationController?.pushViewController(detailUserVC, animated: true)
+    }
+
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        indexSelectedRow = indexPath.row
+        return true
     }
     
     //Pagination
@@ -85,7 +89,7 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol, 
                     
                     return
                 }
-                print("countOfUser: \(countOfUser)"); print("Links.offset + Links.limit: \(Links.offset + Links.limit)");
+                
                 if Links.offset + Links.limit - countOfUser == Links.limit {
                     
                     viewFooter.isHidden = false
@@ -128,11 +132,11 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol, 
     }
     
     //MARK: - UIViewControllerPreviewingDelegate
-    #warning("Не работает 3d тач так как в методе indexPath всегда 0.")
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         if let indexPath = tableView.indexPathForRow(at: location) {
             previewingContext.sourceRect = tableView.rectForRow(at: indexPath)
-            return detailViewController(for: indexPath.row)
+            print("\(indexSelectedRow)")
+            return detailViewController(for: indexSelectedRow)
         }
         
         return nil
