@@ -9,10 +9,11 @@
 import UIKit
 import Lottie
 
-class TableViewController: BaseTableViewController, TableViewPresenterProtocol {
-    
+class TableViewController: BaseTableViewController, TableViewPresenterProtocol, UIViewControllerPreviewingDelegate {
+ 
     let viewFooter = UIView()
     let activityIndicator = UIActivityIndicatorView()
+    var indexSelectedRow = 0
     
     private var isDataLoading: Bool = false
 
@@ -34,7 +35,7 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol {
         viewFooter.isHidden = true
         viewFooter.addSubview(activityIndicator)
         setupActivityIndicator()
-
+        custPresenter?.downloadMoreData()
     }
    
     private func setupActivityIndicator() {
@@ -63,9 +64,10 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let detailUserVC: DetailUserViewController = DetailUserViewController()
         guard let userInfo = custPresenter?.usersData[indexPath.row] else {
-            
+
             return
         }
         detailUserVC.nameUser = userInfo.name ?? ""
@@ -83,12 +85,13 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol {
                     
                     return
                 }
-                if countOfUser >= Links.offset + Links.limit {
+                print("countOfUser: \(countOfUser)"); print("Links.offset + Links.limit: \(Links.offset + Links.limit)");
+                if Links.offset + Links.limit - countOfUser == Links.limit {
                     
                     viewFooter.isHidden = false
+                    isDataLoading.toggle()
+                    custPresenter?.downloadMoreData()
                 }
-                isDataLoading.toggle()
-                custPresenter?.downloadMoreData()
             }
         }
     }
@@ -114,6 +117,8 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TableViewCell.self))
             as? TableViewCell else { return UITableViewCell() }
         
+        self.registerForPreviewing(with: self, sourceView: cell)
+        
         guard let usersData = custPresenter?.usersData[indexPath.row] else { return cell }
         cell.configFavoriteCell(user: usersData)
         
@@ -121,4 +126,33 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol {
         
         return cell
     }
+    
+    //MARK: - UIViewControllerPreviewingDelegate
+    #warning("Не работает 3d тач так как в методе indexPath всегда 0.")
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        if let indexPath = tableView.indexPathForRow(at: location) {
+            previewingContext.sourceRect = tableView.rectForRow(at: indexPath)
+            return detailViewController(for: indexPath.row)
+        }
+        
+        return nil
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        navigationController?.pushViewController(viewControllerToCommit, animated: true)
+    }
+
+    func detailViewController(for index: Int) -> DetailUserViewController {
+        
+        let detailUserVC: DetailUserViewController = DetailUserViewController()
+        guard let userInfo = custPresenter?.usersData[index] else {
+            
+            return detailUserVC
+        }
+        detailUserVC.nameUser = userInfo.name ?? ""
+        detailUserVC.imageUrl = userInfo.image ?? ""
+        
+        return detailUserVC
+    }
+    
 }

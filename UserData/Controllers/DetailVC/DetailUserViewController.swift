@@ -12,7 +12,6 @@ import Nuke
 class DetailUserViewController: UIViewController {
 
     @IBOutlet weak var imageView: UIImageView!
-    
     @IBOutlet weak var nameUserLabel: UILabel!
     
     var nameUser = ""
@@ -23,6 +22,7 @@ class DetailUserViewController: UIViewController {
 
         nameUserLabel.text = nameUser
         downloadImage()
+        print("Тест:\(nameUser)")
     }
     
     override func viewDidLayoutSubviews() {
