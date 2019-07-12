@@ -89,7 +89,6 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol, 
                     
                     return
                 }
-                
                 if Links.offset + Links.limit - countOfUser == Links.limit {
                     
                     viewFooter.isHidden = false

@@ -24,11 +24,6 @@ class TableViewPresenter: BasePresenter {
     weak var userView: TableViewPresenterProtocol!
     var usersData = [UserData]()
     
-//    override func viewWillAppear() {
-//        super.viewWillAppear()
-//        fillingsUsersFromTheInternet()
-//    }
-    
     private func fillingsUsersFromTheInternet() {
         NetworkManager.shared.fetchDataWithAlamofire(url: Links.link) { [weak self](data) in
             
@@ -51,6 +46,7 @@ class TableViewPresenter: BasePresenter {
     }
     
     func downloadMoreData() {
+        
         fillingsUsersFromTheInternet()
         Links.page += Number.one.number
         Links.link = "http://sd2-hiring.herokuapp.com/api/users?offset=\(Links.offset)&limit=\(Links.limit)"
@@ -58,6 +54,7 @@ class TableViewPresenter: BasePresenter {
 }
 
 protocol TableViewPresenterProtocol: class {
+    
     func reloadData()
 }
 
