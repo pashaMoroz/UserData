@@ -22,6 +22,8 @@
 		0419758622D72792006E53F2 /* UserApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419758522D72792006E53F2 /* UserApi.swift */; };
 		0419758922D7C3EF006E53F2 /* UsersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419758822D7C3EF006E53F2 /* UsersModel.swift */; };
 		0419758B22D7C410006E53F2 /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419758A22D7C410006E53F2 /* UserDataModel.swift */; };
+		0419758E22D86E9D006E53F2 /* DetailUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419758C22D86E9D006E53F2 /* DetailUserViewController.swift */; };
+		0419758F22D86E9D006E53F2 /* DetailUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0419758D22D86E9D006E53F2 /* DetailUserViewController.xib */; };
 		1189B6FB61FF3AEC8CD06788 /* Pods_UserData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2921016B404FC8113B4025C /* Pods_UserData.framework */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +45,8 @@
 		0419758522D72792006E53F2 /* UserApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserApi.swift; sourceTree = "<group>"; };
 		0419758822D7C3EF006E53F2 /* UsersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersModel.swift; sourceTree = "<group>"; };
 		0419758A22D7C410006E53F2 /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
+		0419758C22D86E9D006E53F2 /* DetailUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUserViewController.swift; sourceTree = "<group>"; };
+		0419758D22D86E9D006E53F2 /* DetailUserViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailUserViewController.xib; sourceTree = "<group>"; };
 		7F1CC9296ABAAD5F84BA40F1 /* Pods-UserData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UserData.debug.xcconfig"; path = "Target Support Files/Pods-UserData/Pods-UserData.debug.xcconfig"; sourceTree = "<group>"; };
 		B2921016B404FC8113B4025C /* Pods_UserData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UserData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D984E615BC91B750B6F995B9 /* Pods-UserData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UserData.release.xcconfig"; path = "Target Support Files/Pods-UserData/Pods-UserData.release.xcconfig"; sourceTree = "<group>"; };
@@ -94,7 +98,7 @@
 		0419756D22D71B14006E53F2 /* MainVC */ = {
 			isa = PBXGroup;
 			children = (
-				0419757F22D72676006E53F2 /* TableViewPresenter */,
+				0419757F22D72676006E53F2 /* MainViewPresenter */,
 				0419756922D71B0B006E53F2 /* TableViewController.swift */,
 				0419756A22D71B0B006E53F2 /* TableViewController.xib */,
 			);
@@ -123,6 +127,7 @@
 		0419757622D72529006E53F2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0419759022D86EA2006E53F2 /* DetailVC */,
 				0419757E22D72666006E53F2 /* BasePresenter */,
 				0419756D22D71B14006E53F2 /* MainVC */,
 				0419756E22D71D0D006E53F2 /* CellVC */,
@@ -148,12 +153,12 @@
 			path = BasePresenter;
 			sourceTree = "<group>";
 		};
-		0419757F22D72676006E53F2 /* TableViewPresenter */ = {
+		0419757F22D72676006E53F2 /* MainViewPresenter */ = {
 			isa = PBXGroup;
 			children = (
 				0419758022D726BD006E53F2 /* TableViewPresenter.swift */,
 			);
-			path = TableViewPresenter;
+			path = MainViewPresenter;
 			sourceTree = "<group>";
 		};
 		0419758222D72756006E53F2 /* NetworkManager */ = {
@@ -163,6 +168,15 @@
 				0419758522D72792006E53F2 /* UserApi.swift */,
 			);
 			path = NetworkManager;
+			sourceTree = "<group>";
+		};
+		0419759022D86EA2006E53F2 /* DetailVC */ = {
+			isa = PBXGroup;
+			children = (
+				0419758C22D86E9D006E53F2 /* DetailUserViewController.swift */,
+				0419758D22D86E9D006E53F2 /* DetailUserViewController.xib */,
+			);
+			path = DetailVC;
 			sourceTree = "<group>";
 		};
 		EA01FF559FC7EFFBBFA2A1DA /* Frameworks */ = {
@@ -244,6 +258,7 @@
 			files = (
 				0419756C22D71B0B006E53F2 /* TableViewController.xib in Resources */,
 				0419757222D71D38006E53F2 /* TableViewCell.xib in Resources */,
+				0419758F22D86E9D006E53F2 /* DetailUserViewController.xib in Resources */,
 				0419756222D71778006E53F2 /* LaunchScreen.storyboard in Resources */,
 				0419755F22D71778006E53F2 /* Assets.xcassets in Resources */,
 			);
@@ -308,6 +323,7 @@
 				0419756B22D71B0B006E53F2 /* TableViewController.swift in Sources */,
 				0419758922D7C3EF006E53F2 /* UsersModel.swift in Sources */,
 				0419758B22D7C410006E53F2 /* UserDataModel.swift in Sources */,
+				0419758E22D86E9D006E53F2 /* DetailUserViewController.swift in Sources */,
 				0419758122D726BD006E53F2 /* TableViewPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

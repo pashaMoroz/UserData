@@ -58,8 +58,19 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol {
     }
     
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        
+
         isDataLoading = false
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailUserVC: DetailUserViewController = DetailUserViewController()
+        guard let userInfo = custPresenter?.usersData[indexPath.row] else {
+            
+            return
+        }
+        detailUserVC.nameUser = userInfo.name ?? ""
+        detailUserVC.imageUrl = userInfo.image ?? ""
+        self.navigationController?.pushViewController(detailUserVC, animated: true)
     }
     
     //Pagination
@@ -68,8 +79,14 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol {
         if ((tableView.contentOffset.y + tableView.frame.size.height) >= tableView.contentSize.height)
         {
             if !isDataLoading {
-                
-                viewFooter.isHidden = false
+                guard let countOfUser = custPresenter?.usersData.count else {
+                    
+                    return
+                }
+                if countOfUser >= Links.offset + Links.limit {
+                    
+                    viewFooter.isHidden = false
+                }
                 isDataLoading.toggle()
                 custPresenter?.downloadMoreData()
             }

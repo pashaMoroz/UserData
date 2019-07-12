@@ -10,7 +10,7 @@
 import Alamofire
 
 enum Number: Int {
-    case zero = 0
+    
     case one = 1
     
     var number: Int {
@@ -53,7 +53,6 @@ class TableViewPresenter: BasePresenter {
     func downloadMoreData() {
         
         Links.page += Number.one.number
-        Links.limit += Number.zero.number
         Links.link = "http://sd2-hiring.herokuapp.com/api/users?offset=\(Links.offset)&limit=\(Links.limit)"
         fillingsUsersFromTheInternet()
     }
