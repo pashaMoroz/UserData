@@ -27,16 +27,30 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol {
                                  bundle: nil), forCellReuseIdentifier: String(describing: TableViewCell.self))
         tableView.delegate = self
         tableView.dataSource = self
+        title = "User of Telegram"
         
         presenter = TableViewPresenter()
         custPresenter?.userView = self
-        title = "User of Telegram"
         viewFooter.isHidden = true
         viewFooter.addSubview(activityIndicator)
         setupActivityIndicator()
 
     }
    
+    private func setupActivityIndicator() {
+        activityIndicator.startAnimating()
+        activityIndicator.color = .black
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.centerXAnchor.constraint(equalTo: viewFooter.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: viewFooter.centerYAnchor).isActive = true
+    }
+    
+    func reloadData() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
     //MARK: - TableViewDelegate
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
@@ -47,7 +61,7 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol {
         
         isDataLoading = false
     }
-
+    
     //Pagination
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
@@ -61,25 +75,6 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol {
             }
         }
     }
-
-    //MARK: - TableViewDataSourse
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return custPresenter?.usersData.count ?? 0
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TableViewCell.self))
-            as? TableViewCell else { return UITableViewCell() }
-    
-       guard let usersData = custPresenter?.usersData[indexPath.row] else { return cell }
-        cell.configFavoriteCell(user: usersData)
-        
-        viewFooter.isHidden = true
-        
-        return cell
-    }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         
@@ -87,20 +82,26 @@ class TableViewController: BaseTableViewController, TableViewPresenterProtocol {
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        
         return 20
     }
     
-    private func setupActivityIndicator() {
-        activityIndicator.startAnimating()
-        activityIndicator.color = .black
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.centerXAnchor.constraint(equalTo: viewFooter.centerXAnchor).isActive = true
-        activityIndicator.centerYAnchor.constraint(equalTo: viewFooter.centerYAnchor).isActive = true
+    //MARK: - TableViewDataSourse
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return custPresenter?.usersData.count ?? 0
     }
     
-    func reloadData() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: TableViewCell.self))
+            as? TableViewCell else { return UITableViewCell() }
+        
+        guard let usersData = custPresenter?.usersData[indexPath.row] else { return cell }
+        cell.configFavoriteCell(user: usersData)
+        
+        viewFooter.isHidden = true
+        
+        return cell
     }
 }
